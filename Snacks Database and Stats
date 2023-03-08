@@ -1,0 +1,33 @@
+--Create a database of snacks.
+
+CREATE TABLE snacks(id INTEGER PRIMARY KEY, name TEXT, brand TEXT, category TEXT, rating INTEGER, healthy INTEGER);
+
+INSERT INTO snacks VALUES (1, "Jalapeno chips", "Kettle", "crunchy", "7", "unhealthy");
+INSERT INTO snacks VALUES (2, "Swedish fish", "Malaco", "sweet", "5", "unhealthy");
+INSERT INTO snacks VALUES (3, "Barbecue chips", "Lays", "crunchy", "8", "unhealthy");
+INSERT INTO snacks VALUES (4, "Cookie dough", "Pillsbury", "sweet", "3", "unhealthy");
+INSERT INTO snacks VALUES (5, "Goldfish", "Frito-lay", "crunchy", "1", "unhealthy");
+INSERT INTO snacks VALUES (6, "Fruit snacks", "Welch's", "crunchy", "5", "unhealthy");
+INSERT INTO snacks VALUES (7, "Mango strips", "O Organics", "sweet", "8", "healthy-ish");
+INSERT INTO snacks VALUES (8, "Yogurt", "Chobani", "sweet", "4", "healthy");
+INSERT INTO snacks VALUES (9, "Carrots", "O Organics", "crunchy", "2", "healthy");
+INSERT INTO snacks VALUES (10, "Cucumbers", "O Organics", "crunchy", "3", "healthy");
+INSERT INTO snacks VALUES (11, "Cookies", "Homemade", "sweet", "6", "unhealthy");
+INSERT INTO snacks VALUES (12, "Fritos", "Frito-lay", "crunchy", "1", "unhealthy");
+INSERT INTO snacks VALUES (13, "Ice cream", "Tillamook", "sweet", "7", "unhealthy");
+INSERT INTO snacks VALUES (14, "Cheese", "Tillamook", "savory", "9", "unhealthy");
+INSERT INTO snacks VALUES (15, "Pita Chips", "Stacey's", "crunchy", "1", "healthy-ish");
+
+--Display the snacks database ordered by rating.
+SELECT * FROM snacks
+ORDER BY rating DESC;
+
+--What is the average rating of items by category?
+SELECT category, AVG(price) as price FROM snacks
+GROUP BY category
+ORDER BY price DESC;
+
+--What are my top five ranked snacks?
+SELECT name, rating FROM snacks
+ORDER BY rating DSEC
+LIMIT 5;
