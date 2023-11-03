@@ -1,0 +1,59 @@
+The purpose of this project was to link and explore 11 interconnected tables of sales and information pertaining to a digital media store.
+
+-- Show customers (full name, id, country) who are not in the US.
+SELECT FirstName, LastName, Customerid, Country FROM customers
+WHERE Country <> "USA";
+
+-- Show only customers in Brazil.
+SELECT FirstName, LastName, Customerid, Country FROM customers
+WHERE Country = "Brazil";
+
+-- Find the invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing coutnry.
+SELECT cust.FirstName, cust.LastName, inv.Invoiceid, inv.InvoiceDate, inv.BillingAddress FROM customers cust
+LEFT JOIN invoices inv ON cust.Customerid = inv.Customerid
+WHERE cust.Country = "Brazil";
+
+-- Show the Employees who are Sales Agents.
+SELECT FirstName, LastName, Title FROM employees
+WHERE Title = "Sales Support Agent";
+
+-- Find a unique/distinct list of billing countries from the Invoice table.
+SELECT DISTINCT(BillingCountry) FROM invoices
+ORDER BY BillingCountry;
+
+-- Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.
+SELECT inv.Invoiceid, emp.FirstName, emp.LastName FROM invoices inv
+LEFT JOIN customers ON inv.Customerid = customers.Customerid 
+LEFT JOIN employees emp ON customers.SupportRepId = emp.Employeeid
+ORDER BY emp.LastName;
+
+-- Show the invoice total, customer name, country, and sales agent for all invoices and customers.
+SELECT inv.Total, inv.invoiceid, cust.FirstName, cust.LastName, cust.Country, emp.FirstName AS SalesFirst, emp.LastName AS SalesLast FROM invoices inv
+LEFT JOIN customers cust ON inv.Customerid = cust.Customerid 
+LEFT JOIN employees emp ON cust.SupportRepId = emp.Employeeid
+GROUP BY cust.FirstName, cust.LastName
+ORDER BY inv.Total DESC;
+
+-- How many invoices were there in 2009?
+SELECT COUNT(invoiceid) FROM invoices
+WHERE InvoiceDate LIKE "2009%";
+
+-- What are the total sales for 2009?
+SELECT ROUND(SUM(Total), 2) FROM invoices
+WHERE InvoiceDate LIKE "2009%";
+
+-- Write a query that includes the purchased track name with each invoice line ID.
+SELECT inv.InvoiceID, tracks.Name FROM invoice_items inv
+LEFT JOIN tracks ON inv.Trackid = tracks.Trackid;
+
+-- Write a query that includes the purchased track name AND artist name with each invoice line ID.
+SELECT inv.InvoiceID, tracks.Name, artists.Name AS Artist FROM invoice_items inv
+LEFT JOIN tracks ON inv.Trackid = tracks.Trackid
+LEFT JOIN albums ON tracks.Albumid = albums.AlbumId
+LEFT JOIN artists ON albums.ArtistId = artists.ArtistId;
+
+-- Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre
+SELECT tracks.Name , albums.Title, media.Name media, genres.Name genre FROM tracks
+LEFT JOIN albums ON tracks.AlbumId = albums.AlbumId
+LEFT JOIN media_types media ON tracks.MediaTypeId = media.MediaTypeID
+LEFT JOIN genres ON tracks.GenreId = tracks.GenreId;
